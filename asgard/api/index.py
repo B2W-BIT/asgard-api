@@ -5,5 +5,5 @@ from asgard.app import app
 
 
 @app.route(["/"], methods=["GET"], type=RouteTypes.HTTP)
-async def handle(r):
+async def handle():
     return web.json_response({"OK": True})
