@@ -32,18 +32,18 @@
           <div class="body" role="main">
             
   <h1>Código fonte para asgard.clients.chronos.client</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">base64</span> <span class="k">import</span> <span class="n">b64encode</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+<span></span><span class="kn">from</span> <span class="nn">base64</span> <span class="kn">import</span> <span class="n">b64encode</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 
 <span class="kn">import</span> <span class="nn">aiohttp</span>
 
-<span class="kn">from</span> <span class="nn">asgard.clients.chronos.models.job</span> <span class="k">import</span> <span class="n">ChronosJob</span>
-<span class="kn">from</span> <span class="nn">asgard.http.client</span> <span class="k">import</span> <span class="n">HttpClient</span>
-<span class="kn">from</span> <span class="nn">asgard.http.exceptions</span> <span class="k">import</span> <span class="n">HTTPNotFound</span><span class="p">,</span> <span class="n">HTTPBadRequest</span>
+<span class="kn">from</span> <span class="nn">asgard.clients.chronos.models.job</span> <span class="kn">import</span> <span class="n">ChronosJob</span>
+<span class="kn">from</span> <span class="nn">asgard.http.client</span> <span class="kn">import</span> <span class="n">HttpClient</span>
+<span class="kn">from</span> <span class="nn">asgard.http.exceptions</span> <span class="kn">import</span> <span class="n">HTTPNotFound</span><span class="p">,</span> <span class="n">HTTPBadRequest</span>
 
 
 <div class="viewcode-block" id="ChronosClient"><a class="viewcode-back" href="../../../../devguide/code/clients.html#asgard.clients.chronos.ChronosClient">[documentos]</a><span class="k">class</span> <span class="nc">ChronosClient</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">user</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -51,10 +51,10 @@
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">HttpClient</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">address</span> <span class="o">=</span> <span class="n">url</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;</span><span class="si">{self.address}</span><span class="s2">/v1/scheduler&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">address</span><span class="si">}</span><span class="s2">/v1/scheduler&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">auth_data</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="n">user</span> <span class="ow">and</span> <span class="n">password</span><span class="p">:</span>
-            <span class="n">auth_string</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;</span><span class="si">{user}</span><span class="s2">:</span><span class="si">{password}</span><span class="s2">&quot;</span>
+            <span class="n">auth_string</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">user</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">password</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">auth_data</span> <span class="o">=</span> <span class="n">b64encode</span><span class="p">(</span><span class="n">auth_string</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span>
                 <span class="s2">&quot;utf8&quot;</span>
             <span class="p">)</span>
@@ -67,7 +67,7 @@
 <span class="sd">        sido passados no construtor do ChronosClient</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">auth_data</span><span class="p">:</span>
-            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;headers&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="n">f</span><span class="s2">&quot;Basic </span><span class="si">{self.auth_data}</span><span class="s2">&quot;</span><span class="p">}</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;headers&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Basic </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">auth_data</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>
         <span class="k">return</span> <span class="k">await</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">,</span> <span class="n">method</span><span class="p">)(</span><span class="n">url</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 <div class="viewcode-block" id="ChronosClient.get_job_by_id"><a class="viewcode-back" href="../../../../devguide/code/clients.html#asgard.clients.chronos.ChronosClient.get_job_by_id">[documentos]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">get_job_by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ChronosJob</span><span class="p">:</span>
@@ -77,7 +77,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">resp</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">(</span>
-                <span class="s2">&quot;get&quot;</span><span class="p">,</span> <span class="n">f</span><span class="s2">&quot;</span><span class="si">{self.address}</span><span class="s2">/v1/scheduler/job/</span><span class="si">{job_id}</span><span class="s2">&quot;</span>
+                <span class="s2">&quot;get&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">address</span><span class="si">}</span><span class="s2">/v1/scheduler/job/</span><span class="si">{</span><span class="n">job_id</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="p">)</span>
         <span class="k">except</span> <span class="n">HTTPBadRequest</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="c1"># `/job/{name}` retorna 400 se o job não existe.</span>
@@ -93,7 +93,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">resp</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">(</span>
             <span class="s2">&quot;get&quot;</span><span class="p">,</span>
-            <span class="n">f</span><span class="s2">&quot;</span><span class="si">{self.address}</span><span class="s2">/v1/scheduler/jobs/search&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">address</span><span class="si">}</span><span class="s2">/v1/scheduler/jobs/search&quot;</span><span class="p">,</span>
             <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">},</span>
         <span class="p">)</span>
         <span class="n">data</span> <span class="o">=</span> <span class="k">await</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
@@ -106,11 +106,11 @@
 <span class="sd">        Quando colocamos, por exemplo, tz=America/Sao_Paulo o jobs fica programado para a hora certa, mas quando o momento</span>
 <span class="sd">        chega o job fica com status OVERDUE mas *não roda*, nem aparece nos logs a tentativa de rodar o jobs.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">(</span><span class="s2">&quot;post&quot;</span><span class="p">,</span> <span class="n">f</span><span class="s2">&quot;</span><span class="si">{self.base_url}</span><span class="s2">/iso8601&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">job</span><span class="o">.</span><span class="n">dict</span><span class="p">())</span>
+        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">(</span><span class="s2">&quot;post&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/iso8601&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">job</span><span class="o">.</span><span class="n">dict</span><span class="p">())</span>
         <span class="k">return</span> <span class="n">job</span></div>
 
 <div class="viewcode-block" id="ChronosClient.delete_job"><a class="viewcode-back" href="../../../../devguide/code/clients.html#asgard.clients.chronos.ChronosClient.delete_job">[documentos]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">delete_job</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job</span><span class="p">:</span> <span class="n">ChronosJob</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ChronosJob</span><span class="p">:</span>
-        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">(</span><span class="s2">&quot;delete&quot;</span><span class="p">,</span> <span class="n">f</span><span class="s2">&quot;</span><span class="si">{self.base_url}</span><span class="s2">/job/</span><span class="si">{job.name}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">(</span><span class="s2">&quot;delete&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/job/</span><span class="si">{</span><span class="n">job</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">job</span></div></div>
 </pre></div>
 

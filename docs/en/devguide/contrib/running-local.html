@@ -36,7 +36,7 @@
 <span id="asgard-running-local"></span><h1>Rodando o projeto localmente<a class="headerlink" href="#rodando-o-projeto-localmente" title="Permalink to this headline">¶</a></h1>
 <p>Essa é lista de ENVs já com os valores para o ambiente de desenvolvimento:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ASGARD_CACHE_KEY_PREFIX</span><span class="o">=</span><span class="n">asgard</span><span class="o">-</span><span class="n">api</span><span class="o">-</span><span class="n">dev</span><span class="o">/</span>
-<span class="n">ASGARD_DB_URL</span><span class="o">=</span><span class="n">postgresql</span><span class="p">:</span><span class="o">//</span><span class="n">postgres</span><span class="p">:</span><span class="nd">@172</span><span class="o">.</span><span class="mf">18.0</span><span class="o">.</span><span class="mi">41</span><span class="o">/</span><span class="n">asgard</span>
+<span class="n">ASGARD_DB_URL</span><span class="o">=</span><span class="n">postgresql</span><span class="p">:</span><span class="o">//</span><span class="n">postgres</span><span class="p">:</span><span class="o">@</span><span class="mf">172.18</span><span class="o">.</span><span class="mf">0.41</span><span class="o">/</span><span class="n">asgard</span>
 <span class="n">ASGARD_FILTER_TRANSFORMJSON_ENABLED</span><span class="o">=</span><span class="mi">1</span>
 <span class="n">ASGARD_LOGLEVEL</span><span class="o">=</span><span class="n">DEBUG</span>
 <span class="n">ASGARD_MESOS_API_URLS</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;http://172.18.0.11:5050&quot;</span><span class="p">,</span> <span class="s2">&quot;http://172.18.0.12:5050&quot;</span><span class="p">,</span> <span class="s2">&quot;http://172.18.0.13:5050&quot;</span><span class="p">]</span>
@@ -165,7 +165,7 @@ Abra o ipython (também passando as mesmas envs que você passou para rodar a AP
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sqlalchemy.schema</span> <span class="kn">import</span> <span class="n">CreateTable</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">hollowman.models</span> <span class="kn">import</span> <span class="o">&lt;</span><span class="n">Model</span><span class="o">&gt;</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">hollowman.models</span> <span class="kn">import</span> <span class="n">engine</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="p">(</span><span class="n">CreateTable</span><span class="p">(</span><span class="n">Account</span><span class="o">.</span><span class="n">__table__</span><span class="p">)</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">engine</span><span class="p">))</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">print</span> <span class="p">(</span><span class="n">CreateTable</span><span class="p">(</span><span class="n">Account</span><span class="o">.</span><span class="n">__table__</span><span class="p">)</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">engine</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>

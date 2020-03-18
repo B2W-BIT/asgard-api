@@ -51,11 +51,11 @@
 <h3>Testes funcionais<a class="headerlink" href="#testes-funcionais" title="Permalink to this headline">¶</a></h3>
 <p>Todos os testes funcionais são subclasses da classe <code class="docutils literal notranslate"><span class="pre">itests.util.BaseTestCase</span></code>. Importante notar que todos as classes de teste precisam implementar os métodos <code class="docutils literal notranslate"><span class="pre">setUp(self)</span></code> e <code class="docutils literal notranslate"><span class="pre">tearDown(self)</span></code>. Esses métodos são, na verdade, corotinas. Então sua classe de teste deve declará-los também como corotinas. Um exemplo de caso de teste para um teste funcional.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyTestCase</span><span class="p">(</span><span class="n">BaseTestCase</span><span class="p">):</span>
-   <span class="n">async</span> <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-     <span class="n">await</span> <span class="nb">super</span><span class="p">(</span><span class="n">MyTestCase</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">setUp</span><span class="p">()</span>
+   <span class="k">async</span> <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+     <span class="k">await</span> <span class="nb">super</span><span class="p">(</span><span class="n">MyTestCase</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">setUp</span><span class="p">()</span>
 
-   <span class="n">async</span> <span class="k">def</span> <span class="nf">tearDown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-     <span class="n">await</span> <span class="nb">super</span><span class="p">(</span><span class="n">MyTestCase</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">tearDown</span><span class="p">()</span>
+   <span class="k">async</span> <span class="k">def</span> <span class="nf">tearDown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+     <span class="k">await</span> <span class="nb">super</span><span class="p">(</span><span class="n">MyTestCase</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">tearDown</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>Essa é a base para uma nova classe de teste que implementa testes funcionais.</p>
@@ -63,8 +63,8 @@
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">asgard.app</span> <span class="kn">import</span> <span class="n">app</span>
 
 
-<span class="n">async</span> <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-  <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">aiohttp_client</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+  <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">aiohttp_client</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>A partir desse momento você pode chamar a API do Asgard usando esse client, como se fosse um cliente http comum.</p>
@@ -75,8 +75,8 @@
 <p>Quando estamos escrevendo testes que fazem chamadaas reais à API do Asgard e ao mesmo tempo precisamos mocker alguma outra requisição que o código da API fará, precisamos passar uma opção especial para o aioresponses, que é o <code class="docutils literal notranslate"><span class="pre">passthrough</span></code>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tests.conf</span> <span class="kn">import</span> <span class="n">TEST_LOCAL_AIOHTTP_ADDRESS</span>
 
-<span class="n">async</span> <span class="k">def</span> <span class="nf">test_uses_api_and_needs_mock</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-  <span class="n">async</span> <span class="k">with</span> <span class="n">aioresponses</span><span class="p">(</span><span class="n">passthrough</span><span class="o">=</span><span class="p">[</span><span class="n">TEST_LOCAL_AIOHTTP_ADDRESS</span><span class="p">])</span> <span class="k">as</span> <span class="n">rsps</span><span class="p">:</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">test_uses_api_and_needs_mock</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+  <span class="k">async</span> <span class="k">with</span> <span class="n">aioresponses</span><span class="p">(</span><span class="n">passthrough</span><span class="o">=</span><span class="p">[</span><span class="n">TEST_LOCAL_AIOHTTP_ADDRESS</span><span class="p">])</span> <span class="k">as</span> <span class="n">rsps</span><span class="p">:</span>
     <span class="n">rsps</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 </pre></div>
 </div>

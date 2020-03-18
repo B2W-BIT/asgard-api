@@ -32,16 +32,16 @@
           <div class="body" role="main">
             
   <h1>Código fonte para asgard.backends.users</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 
 <span class="kn">import</span> <span class="nn">psycopg2</span>
-<span class="kn">from</span> <span class="nn">sqlalchemy.orm.exc</span> <span class="k">import</span> <span class="n">NoResultFound</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.orm.exc</span> <span class="kn">import</span> <span class="n">NoResultFound</span>
 
-<span class="kn">from</span> <span class="nn">asgard.db</span> <span class="k">import</span> <span class="n">AsgardDBSession</span>
-<span class="kn">from</span> <span class="nn">asgard.exceptions</span> <span class="k">import</span> <span class="n">DuplicateEntity</span>
-<span class="kn">from</span> <span class="nn">asgard.models.account</span> <span class="k">import</span> <span class="n">Account</span><span class="p">,</span> <span class="n">AccountDB</span>
-<span class="kn">from</span> <span class="nn">asgard.models.user</span> <span class="k">import</span> <span class="n">User</span><span class="p">,</span> <span class="n">UserDB</span>
-<span class="kn">from</span> <span class="nn">asgard.models.user_has_account</span> <span class="k">import</span> <span class="n">UserHasAccount</span>
+<span class="kn">from</span> <span class="nn">asgard.db</span> <span class="kn">import</span> <span class="n">AsgardDBSession</span>
+<span class="kn">from</span> <span class="nn">asgard.exceptions</span> <span class="kn">import</span> <span class="n">DuplicateEntity</span>
+<span class="kn">from</span> <span class="nn">asgard.models.account</span> <span class="kn">import</span> <span class="n">Account</span><span class="p">,</span> <span class="n">AccountDB</span>
+<span class="kn">from</span> <span class="nn">asgard.models.user</span> <span class="kn">import</span> <span class="n">User</span><span class="p">,</span> <span class="n">UserDB</span>
+<span class="kn">from</span> <span class="nn">asgard.models.user_has_account</span> <span class="kn">import</span> <span class="n">UserHasAccount</span>
 
 
 <div class="viewcode-block" id="UsersBackend"><a class="viewcode-back" href="../../../src/asgard/asgard.backends.html#asgard.backends.users.UsersBackend">[documentos]</a><span class="k">class</span> <span class="nc">UsersBackend</span><span class="p">:</span>

@@ -31,24 +31,23 @@
           <div class="body" role="main">
             
   <h1>Source code for asgard.api.apps</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">aiohttp</span> <span class="k">import</span> <span class="n">web</span>
-<span class="kn">from</span> <span class="nn">asyncworker</span> <span class="k">import</span> <span class="n">RouteTypes</span>
+<span></span><span class="kn">from</span> <span class="nn">aiohttp</span> <span class="kn">import</span> <span class="n">web</span>
+<span class="kn">from</span> <span class="nn">asyncworker</span> <span class="kn">import</span> <span class="n">RouteTypes</span>
+<span class="kn">from</span> <span class="nn">asyncworker.http.decorators</span> <span class="kn">import</span> <span class="n">parse_path</span>
 
-<span class="kn">from</span> <span class="nn">asgard.api.resources.apps</span> <span class="k">import</span> <span class="n">AppStatsResource</span>
-<span class="kn">from</span> <span class="nn">asgard.app</span> <span class="k">import</span> <span class="n">app</span>
-<span class="kn">from</span> <span class="nn">asgard.backends</span> <span class="k">import</span> <span class="n">mesos</span>
-<span class="kn">from</span> <span class="nn">asgard.backends.base</span> <span class="k">import</span> <span class="n">Interval</span>
-<span class="kn">from</span> <span class="nn">asgard.http.auth</span> <span class="k">import</span> <span class="n">auth_required</span>
-<span class="kn">from</span> <span class="nn">asgard.models.account</span> <span class="k">import</span> <span class="n">Account</span>
-<span class="kn">from</span> <span class="nn">asgard.models.user</span> <span class="k">import</span> <span class="n">User</span>
-<span class="kn">from</span> <span class="nn">asgard.services.apps</span> <span class="k">import</span> <span class="n">AppsService</span>
+<span class="kn">from</span> <span class="nn">asgard.api.resources.apps</span> <span class="kn">import</span> <span class="n">AppStatsResource</span>
+<span class="kn">from</span> <span class="nn">asgard.app</span> <span class="kn">import</span> <span class="n">app</span>
+<span class="kn">from</span> <span class="nn">asgard.backends</span> <span class="kn">import</span> <span class="n">mesos</span>
+<span class="kn">from</span> <span class="nn">asgard.backends.base</span> <span class="kn">import</span> <span class="n">Interval</span>
+<span class="kn">from</span> <span class="nn">asgard.http.auth</span> <span class="kn">import</span> <span class="n">auth_required</span>
+<span class="kn">from</span> <span class="nn">asgard.models.account</span> <span class="kn">import</span> <span class="n">Account</span>
+<span class="kn">from</span> <span class="nn">asgard.models.user</span> <span class="kn">import</span> <span class="n">User</span>
+<span class="kn">from</span> <span class="nn">asgard.services.apps</span> <span class="kn">import</span> <span class="n">AppsService</span>
 
 
-<div class="viewcode-block" id="get_app_stats"><a class="viewcode-back" href="../../../src/asgard/asgard.api.html#asgard.api.apps.get_app_stats">[docs]</a><span class="k">async</span> <span class="k">def</span> <span class="nf">get_app_stats</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">web</span><span class="o">.</span><span class="n">Request</span><span class="p">,</span> <span class="n">interval</span><span class="p">:</span> <span class="n">Interval</span><span class="p">):</span>
-    <span class="n">app_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">match_info</span><span class="p">[</span><span class="s2">&quot;app_id&quot;</span><span class="p">]</span>
-    <span class="n">user</span> <span class="o">=</span> <span class="k">await</span> <span class="n">User</span><span class="o">.</span><span class="n">from_alchemy_obj</span><span class="p">(</span><span class="n">request</span><span class="p">[</span><span class="s2">&quot;user&quot;</span><span class="p">])</span>
-
-    <span class="n">account</span> <span class="o">=</span> <span class="k">await</span> <span class="n">Account</span><span class="o">.</span><span class="n">from_alchemy_obj</span><span class="p">(</span><span class="n">request</span><span class="p">[</span><span class="s2">&quot;user&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">current_account</span><span class="p">)</span>
+<div class="viewcode-block" id="get_app_stats"><a class="viewcode-back" href="../../../src/asgard/asgard.api.html#asgard.api.apps.get_app_stats">[docs]</a><span class="k">async</span> <span class="k">def</span> <span class="nf">get_app_stats</span><span class="p">(</span>
+    <span class="n">app_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">User</span><span class="p">,</span> <span class="n">account</span><span class="p">:</span> <span class="n">Account</span><span class="p">,</span> <span class="n">interval</span><span class="p">:</span> <span class="n">Interval</span>
+<span class="p">):</span>
     <span class="n">stats</span> <span class="o">=</span> <span class="k">await</span> <span class="n">AppsService</span><span class="o">.</span><span class="n">get_app_stats</span><span class="p">(</span>
         <span class="n">app_id</span><span class="p">,</span> <span class="n">interval</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">account</span><span class="p">,</span> <span class="n">mesos</span>
     <span class="p">)</span>
@@ -60,8 +59,9 @@
     <span class="p">[</span><span class="s2">&quot;/apps/{app_id:[.a-z0-9/-]+}/stats&quot;</span><span class="p">],</span> <span class="nb">type</span><span class="o">=</span><span class="n">RouteTypes</span><span class="o">.</span><span class="n">HTTP</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;GET&quot;</span><span class="p">]</span>
 <span class="p">)</span>
 <span class="nd">@auth_required</span>
-<span class="k">async</span> <span class="k">def</span> <span class="nf">app_stats</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">web</span><span class="o">.</span><span class="n">Request</span><span class="p">):</span>
-    <span class="k">return</span> <span class="k">await</span> <span class="n">get_app_stats</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">Interval</span><span class="o">.</span><span class="n">ONE_HOUR</span><span class="p">)</span>
+<span class="nd">@parse_path</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">app_stats</span><span class="p">(</span><span class="n">app_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">User</span><span class="p">,</span> <span class="n">account</span><span class="p">:</span> <span class="n">Account</span><span class="p">):</span>
+    <span class="k">return</span> <span class="k">await</span> <span class="n">get_app_stats</span><span class="p">(</span><span class="n">app_id</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">account</span><span class="p">,</span> <span class="n">Interval</span><span class="o">.</span><span class="n">ONE_HOUR</span><span class="p">)</span>
 
 
 <span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span>
@@ -70,8 +70,9 @@
     <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;GET&quot;</span><span class="p">],</span>
 <span class="p">)</span>
 <span class="nd">@auth_required</span>
-<span class="k">async</span> <span class="k">def</span> <span class="nf">app_stats_avg_1min</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">web</span><span class="o">.</span><span class="n">Request</span><span class="p">):</span>
-    <span class="k">return</span> <span class="k">await</span> <span class="n">get_app_stats</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">Interval</span><span class="o">.</span><span class="n">ONE_MINUTE</span><span class="p">)</span>
+<span class="nd">@parse_path</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">app_stats_avg_1min</span><span class="p">(</span><span class="n">app_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">User</span><span class="p">,</span> <span class="n">account</span><span class="p">:</span> <span class="n">Account</span><span class="p">):</span>
+    <span class="k">return</span> <span class="k">await</span> <span class="n">get_app_stats</span><span class="p">(</span><span class="n">app_id</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">account</span><span class="p">,</span> <span class="n">Interval</span><span class="o">.</span><span class="n">ONE_MINUTE</span><span class="p">)</span>
 </pre></div>
 
           </div>

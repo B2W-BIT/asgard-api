@@ -32,18 +32,18 @@
           <div class="body" role="main">
             
   <h1>Código fonte para asgard.backends.marathon.impl</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timezone</span>
-<span class="kn">from</span> <span class="nn">decimal</span> <span class="k">import</span> <span class="n">Decimal</span>
+<span></span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timezone</span>
+<span class="kn">from</span> <span class="nn">decimal</span> <span class="kn">import</span> <span class="n">Decimal</span>
 
-<span class="kn">from</span> <span class="nn">aioelasticsearch</span> <span class="k">import</span> <span class="n">Elasticsearch</span>
-<span class="kn">from</span> <span class="nn">elasticsearch_dsl</span> <span class="k">import</span> <span class="n">Search</span><span class="p">,</span> <span class="n">Q</span><span class="p">,</span> <span class="n">A</span>
+<span class="kn">from</span> <span class="nn">aioelasticsearch</span> <span class="kn">import</span> <span class="n">Elasticsearch</span>
+<span class="kn">from</span> <span class="nn">elasticsearch_dsl</span> <span class="kn">import</span> <span class="n">Search</span><span class="p">,</span> <span class="n">Q</span><span class="p">,</span> <span class="n">A</span>
 
-<span class="kn">from</span> <span class="nn">asgard.backends.base</span> <span class="k">import</span> <span class="n">AppsBackend</span><span class="p">,</span> <span class="n">Interval</span>
-<span class="kn">from</span> <span class="nn">asgard.conf</span> <span class="k">import</span> <span class="n">settings</span>
-<span class="kn">from</span> <span class="nn">asgard.math</span> <span class="k">import</span> <span class="n">round_up</span>
-<span class="kn">from</span> <span class="nn">asgard.models.account</span> <span class="k">import</span> <span class="n">Account</span>
-<span class="kn">from</span> <span class="nn">asgard.models.app</span> <span class="k">import</span> <span class="n">App</span><span class="p">,</span> <span class="n">AppStats</span>
-<span class="kn">from</span> <span class="nn">asgard.models.user</span> <span class="k">import</span> <span class="n">User</span>
+<span class="kn">from</span> <span class="nn">asgard.backends.base</span> <span class="kn">import</span> <span class="n">AppsBackend</span><span class="p">,</span> <span class="n">Interval</span>
+<span class="kn">from</span> <span class="nn">asgard.conf</span> <span class="kn">import</span> <span class="n">settings</span>
+<span class="kn">from</span> <span class="nn">asgard.math</span> <span class="kn">import</span> <span class="n">round_up</span>
+<span class="kn">from</span> <span class="nn">asgard.models.account</span> <span class="kn">import</span> <span class="n">Account</span>
+<span class="kn">from</span> <span class="nn">asgard.models.app</span> <span class="kn">import</span> <span class="n">App</span><span class="p">,</span> <span class="n">AppStats</span>
+<span class="kn">from</span> <span class="nn">asgard.models.user</span> <span class="kn">import</span> <span class="n">User</span>
 
 
 <div class="viewcode-block" id="MarathonAppsBackend"><a class="viewcode-back" href="../../../../src/asgard/asgard.backends.marathon.html#asgard.backends.marathon.impl.MarathonAppsBackend">[documentos]</a><span class="k">class</span> <span class="nc">MarathonAppsBackend</span><span class="p">(</span><span class="n">AppsBackend</span><span class="p">):</span>
@@ -51,13 +51,13 @@
         <span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">:</span> <span class="n">App</span><span class="p">,</span> <span class="n">interval</span><span class="p">:</span> <span class="n">Interval</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">User</span><span class="p">,</span> <span class="n">account</span><span class="p">:</span> <span class="n">Account</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AppStats</span><span class="p">:</span>
         <span class="n">utc_now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">tzinfo</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
-        <span class="n">index_name</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;asgard-app-stats-{utc_now.strftime(&#39;%Y-%m-</span><span class="si">%d</span><span class="s2">&#39;)}-*&quot;</span>
+        <span class="n">index_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;asgard-app-stats-</span><span class="si">{</span><span class="n">utc_now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">-*&quot;</span>
 
         <span class="n">bool_query</span> <span class="o">=</span> <span class="n">Q</span><span class="p">(</span>
             <span class="s2">&quot;bool&quot;</span><span class="p">,</span>
             <span class="n">must</span><span class="o">=</span><span class="p">[</span>
-                <span class="n">Q</span><span class="p">(</span><span class="s2">&quot;term&quot;</span><span class="p">,</span> <span class="n">appname__keyword</span><span class="o">=</span><span class="n">f</span><span class="s2">&quot;/</span><span class="si">{account.namespace}</span><span class="s2">/</span><span class="si">{app.id}</span><span class="s2">&quot;</span><span class="p">),</span>
-                <span class="n">Q</span><span class="p">(</span><span class="s2">&quot;range&quot;</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;gte&quot;</span><span class="p">:</span> <span class="n">f</span><span class="s2">&quot;now-</span><span class="si">{interval}</span><span class="s2">&quot;</span><span class="p">}),</span>
+                <span class="n">Q</span><span class="p">(</span><span class="s2">&quot;term&quot;</span><span class="p">,</span> <span class="n">appname__keyword</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;/</span><span class="si">{</span><span class="n">account</span><span class="o">.</span><span class="n">namespace</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">app</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">),</span>
+                <span class="n">Q</span><span class="p">(</span><span class="s2">&quot;range&quot;</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;gte&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;now-</span><span class="si">{</span><span class="n">interval</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}),</span>
             <span class="p">],</span>
         <span class="p">)</span>
         <span class="n">query</span> <span class="o">=</span> <span class="n">Search</span><span class="p">()</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">bool_query</span><span class="p">)</span><span class="o">.</span><span class="n">extra</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>

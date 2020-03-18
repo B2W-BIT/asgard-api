@@ -32,22 +32,22 @@
           <div class="body" role="main">
             
   <h1>Código fonte para asgard.workers.autoscaler.asgard_cloudinterface</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span>
 
-<span class="kn">from</span> <span class="nn">asgard.clients.apps.client</span> <span class="k">import</span> <span class="n">AppsClient</span>
-<span class="kn">from</span> <span class="nn">asgard.workers.autoscaler.cloudinterface</span> <span class="k">import</span> <span class="n">CloudInterface</span>
-<span class="kn">from</span> <span class="nn">asgard.workers.converters.asgard_converter</span> <span class="k">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">asgard.clients.apps.client</span> <span class="kn">import</span> <span class="n">AppsClient</span>
+<span class="kn">from</span> <span class="nn">asgard.workers.autoscaler.cloudinterface</span> <span class="kn">import</span> <span class="n">CloudInterface</span>
+<span class="kn">from</span> <span class="nn">asgard.workers.converters.asgard_converter</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">AppConverter</span><span class="p">,</span>
     <span class="n">AppStatsConverter</span><span class="p">,</span>
     <span class="n">DecisionConverter</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">asgard.workers.models.app_stats</span> <span class="k">import</span> <span class="n">AppStats</span>
-<span class="kn">from</span> <span class="nn">asgard.workers.models.decision</span> <span class="k">import</span> <span class="n">Decision</span>
-<span class="kn">from</span> <span class="nn">asgard.workers.models.scalable_app</span> <span class="k">import</span> <span class="n">ScalableApp</span>
+<span class="kn">from</span> <span class="nn">asgard.workers.models.app_stats</span> <span class="kn">import</span> <span class="n">AppStats</span>
+<span class="kn">from</span> <span class="nn">asgard.workers.models.decision</span> <span class="kn">import</span> <span class="n">Decision</span>
+<span class="kn">from</span> <span class="nn">asgard.workers.models.scalable_app</span> <span class="kn">import</span> <span class="n">ScalableApp</span>
 
 
 <div class="viewcode-block" id="AsgardInterface"><a class="viewcode-back" href="../../../../src/asgard/asgard.workers.autoscaler.html#asgard.workers.autoscaler.asgard_cloudinterface.AsgardInterface">[documentos]</a><span class="k">class</span> <span class="nc">AsgardInterface</span><span class="p">(</span><span class="n">CloudInterface</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_asgard_client</span> <span class="o">=</span> <span class="n">AppsClient</span><span class="p">()</span>
 
 <div class="viewcode-block" id="AsgardInterface.fetch_all_apps"><a class="viewcode-back" href="../../../../src/asgard/asgard.workers.autoscaler.html#asgard.workers.autoscaler.asgard_cloudinterface.AsgardInterface.fetch_all_apps">[documentos]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">fetch_all_apps</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">ScalableApp</span><span class="p">]:</span>

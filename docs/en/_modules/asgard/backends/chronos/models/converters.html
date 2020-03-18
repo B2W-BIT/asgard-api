@@ -31,10 +31,10 @@
           <div class="body" role="main">
             
   <h1>Source code for asgard.backends.chronos.models.converters</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
 
-<span class="kn">from</span> <span class="nn">asgard.backends.models.converters</span> <span class="k">import</span> <span class="n">ModelConverterInterface</span>
-<span class="kn">from</span> <span class="nn">asgard.clients.chronos.models.job</span> <span class="k">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">asgard.backends.models.converters</span> <span class="kn">import</span> <span class="n">ModelConverterInterface</span>
+<span class="kn">from</span> <span class="nn">asgard.clients.chronos.models.job</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">ChronosJob</span><span class="p">,</span>
     <span class="n">ChronosContainerParameterSpec</span><span class="p">,</span>
     <span class="n">ChronosContainerVolumeSpec</span><span class="p">,</span>
@@ -43,16 +43,16 @@
     <span class="n">ChronosFetchURLSpec</span><span class="p">,</span>
     <span class="n">ChronosConstraintSpec</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">asgard.models.job</span> <span class="k">import</span> <span class="n">ScheduledJob</span>
-<span class="kn">from</span> <span class="nn">asgard.models.spec.constraint</span> <span class="k">import</span> <span class="n">ConstraintSpec</span>
-<span class="kn">from</span> <span class="nn">asgard.models.spec.container</span> <span class="k">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">asgard.models.job</span> <span class="kn">import</span> <span class="n">ScheduledJob</span>
+<span class="kn">from</span> <span class="nn">asgard.models.spec.constraint</span> <span class="kn">import</span> <span class="n">ConstraintSpec</span>
+<span class="kn">from</span> <span class="nn">asgard.models.spec.container</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">ContainerSpec</span><span class="p">,</span>
     <span class="n">ContainerParameterSpec</span><span class="p">,</span>
     <span class="n">ContainerVolumeSpec</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">asgard.models.spec.env</span> <span class="k">import</span> <span class="n">EnvSpec</span>
-<span class="kn">from</span> <span class="nn">asgard.models.spec.fetch</span> <span class="k">import</span> <span class="n">FetchURLSpec</span>
-<span class="kn">from</span> <span class="nn">asgard.models.spec.schedule</span> <span class="k">import</span> <span class="n">ScheduleSpec</span>
+<span class="kn">from</span> <span class="nn">asgard.models.spec.env</span> <span class="kn">import</span> <span class="n">EnvSpec</span>
+<span class="kn">from</span> <span class="nn">asgard.models.spec.fetch</span> <span class="kn">import</span> <span class="n">FetchURLSpec</span>
+<span class="kn">from</span> <span class="nn">asgard.models.spec.schedule</span> <span class="kn">import</span> <span class="n">ScheduleSpec</span>
 
 
 <div class="viewcode-block" id="ChronosScheduledJobConverter"><a class="viewcode-back" href="../../../../../src/asgard/asgard.backends.chronos.models.html#asgard.backends.chronos.models.converters.ChronosScheduledJobConverter">[docs]</a><span class="k">class</span> <span class="nc">ChronosScheduledJobConverter</span><span class="p">(</span>
@@ -286,7 +286,7 @@
 <span class="p">):</span>
 <div class="viewcode-block" id="ChronosConstraintSpecConverter.to_asgard_model"><a class="viewcode-back" href="../../../../../src/asgard/asgard.backends.chronos.models.html#asgard.backends.chronos.models.converters.ChronosConstraintSpecConverter.to_asgard_model">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">to_asgard_model</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">ChronosConstraintSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ConstraintSpec</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{item[0]}</span><span class="s2">:</span><span class="si">{item[1]}</span><span class="s2">:</span><span class="si">{item[2]}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">other</span><span class="p">]</span></div>
+        <span class="k">return</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">item</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">other</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="ChronosConstraintSpecConverter.to_client_model"><a class="viewcode-back" href="../../../../../src/asgard/asgard.backends.chronos.models.html#asgard.backends.chronos.models.converters.ChronosConstraintSpecConverter.to_client_model">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">to_client_model</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">ConstraintSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ChronosConstraintSpec</span><span class="p">:</span>

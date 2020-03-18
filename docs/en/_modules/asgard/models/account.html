@@ -34,13 +34,13 @@
 <span></span><span class="c1"># encoding: utf-8</span>
 
 
-<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="k">import</span> <span class="n">Column</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">String</span>
-<span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="k">import</span> <span class="n">relationship</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">Column</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">String</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="kn">import</span> <span class="n">relationship</span>
 
-<span class="kn">from</span> <span class="nn">asgard.db</span> <span class="k">import</span> <span class="n">AsgardDBSession</span>
-<span class="kn">from</span> <span class="nn">asgard.models.base</span> <span class="k">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">BaseModelAlchemy</span>
-<span class="kn">from</span> <span class="nn">asgard.models.user</span> <span class="k">import</span> <span class="n">User</span><span class="p">,</span> <span class="n">UserDB</span>
-<span class="kn">from</span> <span class="nn">asgard.models.user_has_account</span> <span class="k">import</span> <span class="n">UserHasAccount</span>
+<span class="kn">from</span> <span class="nn">asgard.db</span> <span class="kn">import</span> <span class="n">AsgardDBSession</span>
+<span class="kn">from</span> <span class="nn">asgard.models.base</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">BaseModelAlchemy</span>
+<span class="kn">from</span> <span class="nn">asgard.models.user</span> <span class="kn">import</span> <span class="n">User</span><span class="p">,</span> <span class="n">UserDB</span>
+<span class="kn">from</span> <span class="nn">asgard.models.user_has_account</span> <span class="kn">import</span> <span class="n">UserHasAccount</span>
 
 
 <div class="viewcode-block" id="AccountDB"><a class="viewcode-back" href="../../../src/asgard/asgard.models.html#asgard.models.account.AccountDB">[docs]</a><span class="k">class</span> <span class="nc">AccountDB</span><span class="p">(</span><span class="n">BaseModelAlchemy</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
