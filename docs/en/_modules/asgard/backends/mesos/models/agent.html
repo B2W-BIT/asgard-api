@@ -31,15 +31,15 @@
           <div class="body" role="main">
             
   <h1>Source code for asgard.backends.mesos.models.agent</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">defaultdict</span>
-<span class="kn">from</span> <span class="nn">decimal</span> <span class="k">import</span> <span class="n">Decimal</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Set</span>
+<span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span> <span class="nn">decimal</span> <span class="kn">import</span> <span class="n">Decimal</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Set</span>
 
-<span class="kn">from</span> <span class="nn">asgard.backends.mesos.models.app</span> <span class="k">import</span> <span class="n">MesosApp</span>
-<span class="kn">from</span> <span class="nn">asgard.backends.mesos.models.task</span> <span class="k">import</span> <span class="n">MesosTask</span>
-<span class="kn">from</span> <span class="nn">asgard.http.client</span> <span class="k">import</span> <span class="n">HttpClient</span>
-<span class="kn">from</span> <span class="nn">asgard.math</span> <span class="k">import</span> <span class="n">round_up</span>
-<span class="kn">from</span> <span class="nn">asgard.models.agent</span> <span class="k">import</span> <span class="n">Agent</span>
+<span class="kn">from</span> <span class="nn">asgard.backends.mesos.models.app</span> <span class="kn">import</span> <span class="n">MesosApp</span>
+<span class="kn">from</span> <span class="nn">asgard.backends.mesos.models.task</span> <span class="kn">import</span> <span class="n">MesosTask</span>
+<span class="kn">from</span> <span class="nn">asgard.http.client</span> <span class="kn">import</span> <span class="n">HttpClient</span>
+<span class="kn">from</span> <span class="nn">asgard.math</span> <span class="kn">import</span> <span class="n">round_up</span>
+<span class="kn">from</span> <span class="nn">asgard.models.agent</span> <span class="kn">import</span> <span class="n">Agent</span>
 
 <span class="n">_http_client</span> <span class="o">=</span> <span class="n">HttpClient</span><span class="p">()</span>
 
@@ -74,8 +74,8 @@
         <span class="p">}</span></div>
 
 <div class="viewcode-block" id="MesosAgent.apps"><a class="viewcode-back" href="../../../../../src/asgard/asgard.backends.mesos.models.html#asgard.backends.mesos.models.agent.MesosAgent.apps">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">apps</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">MesosApp</span><span class="p">]:</span>  <span class="c1"># type: ignore</span>
-        <span class="n">self_address</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;http://</span><span class="si">{self.hostname}</span><span class="s2">:</span><span class="si">{self.port}</span><span class="s2">&quot;</span>
-        <span class="n">containers_url</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;</span><span class="si">{self_address}</span><span class="s2">/containers&quot;</span>
+        <span class="n">self_address</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;http://</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">containers_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">self_address</span><span class="si">}</span><span class="s2">/containers&quot;</span>
         <span class="n">apps</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">_http_client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">containers_url</span><span class="p">)</span>
 
@@ -91,8 +91,8 @@
         <span class="k">return</span> <span class="n">apps</span></div>
 
 <div class="viewcode-block" id="MesosAgent.tasks"><a class="viewcode-back" href="../../../../../src/asgard/asgard.backends.mesos.models.html#asgard.backends.mesos.models.agent.MesosAgent.tasks">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">tasks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">MesosTask</span><span class="p">]:</span>
-        <span class="n">self_address</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;http://</span><span class="si">{self.hostname}</span><span class="s2">:</span><span class="si">{self.port}</span><span class="s2">&quot;</span>
-        <span class="n">containers_url</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;</span><span class="si">{self_address}</span><span class="s2">/containers&quot;</span>
+        <span class="n">self_address</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;http://</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">containers_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">self_address</span><span class="si">}</span><span class="s2">/containers&quot;</span>
         <span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">_http_client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">containers_url</span><span class="p">)</span>
         <span class="n">data</span> <span class="o">=</span> <span class="k">await</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
         <span class="n">tasks_per_app</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">MesosTask</span><span class="p">]]</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>

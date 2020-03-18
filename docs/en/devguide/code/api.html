@@ -38,11 +38,11 @@
 <p>Para cada endpoint na API HTTP, por exemplo, <code class="docutils literal notranslate"><span class="pre">/agents</span></code>, temos nesse pacote a definição das rotas desse endpoint em <code class="docutils literal notranslate"><span class="pre">asgard/api/agents.py</span></code>. Isso deve valer para todas as rotas do projeto.</p>
 <p>Para cada sub-rota de um endpoint, por exemplo, <code class="docutils literal notranslate"><span class="pre">/agents/with-attrs</span></code> temos definido em <code class="docutils literal notranslate"><span class="pre">asgard/api/resources</span></code> um modelo que representa essa resposta que será serializada por essa rota.</p>
 <p>Pegando então o exemplo do endpoint <code class="docutils literal notranslate"><span class="pre">/agents/with-attrs</span></code>, esse é modelo serializado por esse endpoint:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
 
-<span class="kn">from</span> <span class="nn">pydantic</span> <span class="k">import</span> <span class="n">BaseModel</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
 
-<span class="kn">from</span> <span class="nn">asgard.models.agent</span> <span class="k">import</span> <span class="n">AgentFactory</span>
+<span class="kn">from</span> <span class="nn">asgard.models.agent</span> <span class="kn">import</span> <span class="n">AgentFactory</span>
 
 
 <span class="k">class</span> <span class="nc">AgentsResource</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
@@ -51,9 +51,9 @@
 </pre></div>
 </div>
 <p>Perceba que esse modelo faz referência a outros modelos. Já o código da view que vai serializar esse modelo vai apenas construir esse objeto usando os outros objetos mencionados acima, ex:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">async</span> <span class="k">def</span> <span class="nf">handler</span><span class="p">(</span><span class="o">...</span><span class="p">):</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">async</span> <span class="k">def</span> <span class="nf">handler</span><span class="p">(</span><span class="o">...</span><span class="p">):</span>
 
-  <span class="n">agents</span> <span class="o">=</span> <span class="n">await</span> <span class="n">agents_service</span><span class="o">.</span><span class="n">get_agents</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">account</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">mesos</span><span class="p">)</span>
+  <span class="n">agents</span> <span class="o">=</span> <span class="k">await</span> <span class="n">agents_service</span><span class="o">.</span><span class="n">get_agents</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">account</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">mesos</span><span class="p">)</span>
   <span class="n">filtered_agents</span> <span class="o">=</span> <span class="n">apply_attr_filter</span><span class="p">(</span><span class="n">filters</span><span class="p">,</span> <span class="n">agents</span><span class="p">)</span>
 
   <span class="n">stats</span> <span class="o">=</span> <span class="n">calculate_stats</span><span class="p">(</span><span class="n">filtered_agents</span><span class="p">)</span>

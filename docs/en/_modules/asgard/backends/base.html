@@ -32,13 +32,13 @@
             
   <h1>Source code for asgard.backends.base</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">abc</span>
-<span class="kn">from</span> <span class="nn">enum</span> <span class="k">import</span> <span class="n">Enum</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 
-<span class="kn">from</span> <span class="nn">asgard.models.account</span> <span class="k">import</span> <span class="n">Account</span>
-<span class="kn">from</span> <span class="nn">asgard.models.agent</span> <span class="k">import</span> <span class="n">Agent</span>
-<span class="kn">from</span> <span class="nn">asgard.models.app</span> <span class="k">import</span> <span class="n">App</span><span class="p">,</span> <span class="n">AppStats</span>
-<span class="kn">from</span> <span class="nn">asgard.models.user</span> <span class="k">import</span> <span class="n">User</span>
+<span class="kn">from</span> <span class="nn">asgard.models.account</span> <span class="kn">import</span> <span class="n">Account</span>
+<span class="kn">from</span> <span class="nn">asgard.models.agent</span> <span class="kn">import</span> <span class="n">Agent</span>
+<span class="kn">from</span> <span class="nn">asgard.models.app</span> <span class="kn">import</span> <span class="n">App</span><span class="p">,</span> <span class="n">AppStats</span>
+<span class="kn">from</span> <span class="nn">asgard.models.user</span> <span class="kn">import</span> <span class="n">User</span>
 
 
 <div class="viewcode-block" id="Interval"><a class="viewcode-back" href="../../../src/asgard/asgard.backends.html#asgard.backends.base.Interval">[docs]</a><span class="k">class</span> <span class="nc">Interval</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
@@ -85,7 +85,7 @@
 <span class="sd">    As depdenências injetadas aqui são implementações que efetivamente falam com cada um dos backends suportados.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Orchestrator.__init__"><a class="viewcode-back" href="../../../devguide/contrib/write-new-orquestrator.html#asgard.backends.base.Orchestrator.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+<div class="viewcode-block" id="Orchestrator.__init__"><a class="viewcode-back" href="../../../devguide/contrib/write-new-orquestrator.html#asgard.backends.base.Orchestrator.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">agents_backend</span><span class="p">:</span> <span class="n">AgentsBackend</span><span class="p">,</span> <span class="n">apps_backend</span><span class="p">:</span> <span class="n">AppsBackend</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">agents_backend</span> <span class="o">=</span> <span class="n">agents_backend</span>

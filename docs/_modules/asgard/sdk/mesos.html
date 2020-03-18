@@ -32,23 +32,23 @@
           <div class="body" role="main">
             
   <h1>Código fonte para asgard.sdk.mesos</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">http</span> <span class="k">import</span> <span class="n">HTTPStatus</span>
+<span></span><span class="kn">from</span> <span class="nn">http</span> <span class="kn">import</span> <span class="n">HTTPStatus</span>
 
 <span class="kn">import</span> <span class="nn">requests</span>
 
-<span class="kn">from</span> <span class="nn">asgard.sdk.options</span> <span class="k">import</span> <span class="n">get_option</span>
+<span class="kn">from</span> <span class="nn">asgard.sdk.options</span> <span class="kn">import</span> <span class="n">get_option</span>
 
 
 <div class="viewcode-block" id="get_mesos_leader_address"><a class="viewcode-back" href="../../../src/asgard/asgard.sdk.mesos.html#asgard.sdk.mesos.get_mesos_leader_address">[documentos]</a><span class="k">def</span> <span class="nf">get_mesos_leader_address</span><span class="p">():</span>
     <span class="k">for</span> <span class="n">mesos_address</span> <span class="ow">in</span> <span class="n">get_option</span><span class="p">(</span><span class="s2">&quot;MESOS&quot;</span><span class="p">,</span> <span class="s2">&quot;ADDRESS&quot;</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-                <span class="n">f</span><span class="s2">&quot;</span><span class="si">{mesos_address}</span><span class="s2">/redirect&quot;</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">allow_redirects</span><span class="o">=</span><span class="kc">False</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">mesos_address</span><span class="si">}</span><span class="s2">/redirect&quot;</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">allow_redirects</span><span class="o">=</span><span class="kc">False</span>
             <span class="p">)</span>
             <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Location&quot;</span><span class="p">):</span>
                 <span class="n">leader_ip</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Location&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;//&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
                 <span class="c1"># config.logger.debug({&quot;action&quot;: &quot;find-mesos-leader&quot;, &quot;try-address&quot;: mesos_address, &quot;exception&quot;: False, &quot;leader-ip&quot;: leader_ip})</span>
-                <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;http://</span><span class="si">{leader_ip}</span><span class="s2">&quot;</span>
+                <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;http://</span><span class="si">{</span><span class="n">leader_ip</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">ConnectionError</span> <span class="k">as</span> <span class="n">ConErr</span><span class="p">:</span>
             <span class="k">pass</span></div>
             <span class="c1"># config.logger.debug({&quot;action&quot;: &quot;find-mesos-leader&quot;, &quot;try-address&quot;: mesos_address, &quot;exception&quot;: True})</span>
@@ -57,7 +57,7 @@
 <div class="viewcode-block" id="is_master_healthy"><a class="viewcode-back" href="../../../src/asgard/asgard.sdk.mesos.html#asgard.sdk.mesos.is_master_healthy">[documentos]</a><span class="k">def</span> <span class="nf">is_master_healthy</span><span class="p">(</span><span class="n">master_url</span><span class="p">):</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-            <span class="n">f</span><span class="s2">&quot;</span><span class="si">{master_url}</span><span class="s2">/health&quot;</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">allow_redirects</span><span class="o">=</span><span class="kc">False</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">master_url</span><span class="si">}</span><span class="s2">/health&quot;</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">allow_redirects</span><span class="o">=</span><span class="kc">False</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">HTTPStatus</span><span class="o">.</span><span class="n">OK</span>
     <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>

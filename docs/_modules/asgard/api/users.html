@@ -32,27 +32,27 @@
           <div class="body" role="main">
             
   <h1>Código fonte para asgard.api.users</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">http</span> <span class="k">import</span> <span class="n">HTTPStatus</span>
-<span class="kn">from</span> <span class="nn">json.decoder</span> <span class="k">import</span> <span class="n">JSONDecodeError</span>
+<span></span><span class="kn">from</span> <span class="nn">http</span> <span class="kn">import</span> <span class="n">HTTPStatus</span>
+<span class="kn">from</span> <span class="nn">json.decoder</span> <span class="kn">import</span> <span class="n">JSONDecodeError</span>
 
-<span class="kn">from</span> <span class="nn">aiohttp</span> <span class="k">import</span> <span class="n">web</span>
-<span class="kn">from</span> <span class="nn">aiohttp.web</span> <span class="k">import</span> <span class="n">json_response</span>
-<span class="kn">from</span> <span class="nn">asyncworker</span> <span class="k">import</span> <span class="n">RouteTypes</span>
+<span class="kn">from</span> <span class="nn">aiohttp</span> <span class="kn">import</span> <span class="n">web</span>
+<span class="kn">from</span> <span class="nn">aiohttp.web</span> <span class="kn">import</span> <span class="n">json_response</span>
+<span class="kn">from</span> <span class="nn">asyncworker</span> <span class="kn">import</span> <span class="n">RouteTypes</span>
 
-<span class="kn">from</span> <span class="nn">asgard.api.resources</span> <span class="k">import</span> <span class="n">ErrorDetail</span><span class="p">,</span> <span class="n">ErrorResource</span>
-<span class="kn">from</span> <span class="nn">asgard.api.resources.users</span> <span class="k">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">asgard.api.resources</span> <span class="kn">import</span> <span class="n">ErrorDetail</span><span class="p">,</span> <span class="n">ErrorResource</span>
+<span class="kn">from</span> <span class="nn">asgard.api.resources.users</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">UserMeResource</span><span class="p">,</span>
     <span class="n">UserListResource</span><span class="p">,</span>
     <span class="n">UserResource</span><span class="p">,</span>
     <span class="n">UserAccountsResource</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">asgard.app</span> <span class="k">import</span> <span class="n">app</span>
-<span class="kn">from</span> <span class="nn">asgard.backends.users</span> <span class="k">import</span> <span class="n">UsersBackend</span>
-<span class="kn">from</span> <span class="nn">asgard.exceptions</span> <span class="k">import</span> <span class="n">DuplicateEntity</span>
-<span class="kn">from</span> <span class="nn">asgard.http.auth</span> <span class="k">import</span> <span class="n">auth_required</span>
-<span class="kn">from</span> <span class="nn">asgard.models.account</span> <span class="k">import</span> <span class="n">Account</span>
-<span class="kn">from</span> <span class="nn">asgard.models.user</span> <span class="k">import</span> <span class="n">User</span>
-<span class="kn">from</span> <span class="nn">asgard.services.users</span> <span class="k">import</span> <span class="n">UsersService</span>
+<span class="kn">from</span> <span class="nn">asgard.app</span> <span class="kn">import</span> <span class="n">app</span>
+<span class="kn">from</span> <span class="nn">asgard.backends.users</span> <span class="kn">import</span> <span class="n">UsersBackend</span>
+<span class="kn">from</span> <span class="nn">asgard.exceptions</span> <span class="kn">import</span> <span class="n">DuplicateEntity</span>
+<span class="kn">from</span> <span class="nn">asgard.http.auth</span> <span class="kn">import</span> <span class="n">auth_required</span>
+<span class="kn">from</span> <span class="nn">asgard.models.account</span> <span class="kn">import</span> <span class="n">Account</span>
+<span class="kn">from</span> <span class="nn">asgard.models.user</span> <span class="kn">import</span> <span class="n">User</span>
+<span class="kn">from</span> <span class="nn">asgard.services.users</span> <span class="kn">import</span> <span class="n">UsersService</span>
 
 
 <div class="viewcode-block" id="whoami"><a class="viewcode-back" href="../../../src/asgard/asgard.api.html#asgard.api.users.whoami">[documentos]</a><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">([</span><span class="s2">&quot;/users/me&quot;</span><span class="p">],</span> <span class="nb">type</span><span class="o">=</span><span class="n">RouteTypes</span><span class="o">.</span><span class="n">HTTP</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;GET&quot;</span><span class="p">])</span>

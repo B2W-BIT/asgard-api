@@ -36,14 +36,62 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link permanente para este título">¶</a></h2>
 </div>
-<div class="section" id="asgard-http-auth-auth-required-module">
-<h2>asgard.http.auth.auth_required module<a class="headerlink" href="#asgard-http-auth-auth-required-module" title="Link permanente para este título">¶</a></h2>
+<div class="section" id="module-asgard.http.auth.auth_required">
+<span id="asgard-http-auth-auth-required-module"></span><h2>asgard.http.auth.auth_required module<a class="headerlink" href="#module-asgard.http.auth.auth_required" title="Link permanente para este título">¶</a></h2>
+<dl class="class">
+<dt id="asgard.http.auth.auth_required.TokenTypes">
+<em class="property">class </em><code class="descclassname">asgard.http.auth.auth_required.</code><code class="descname">TokenTypes</code><a class="reference internal" href="../../_modules/asgard/http/auth/auth_required.html#TokenTypes"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#asgard.http.auth.auth_required.TokenTypes" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Base: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="attribute">
+<dt id="asgard.http.auth.auth_required.TokenTypes.JWT">
+<code class="descname">JWT</code><em class="property"> = 'JWT'</em><a class="headerlink" href="#asgard.http.auth.auth_required.TokenTypes.JWT" title="Link permanente para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="asgard.http.auth.auth_required.TokenTypes.USER_TOKEN">
+<code class="descname">USER_TOKEN</code><em class="property"> = 'Token'</em><a class="headerlink" href="#asgard.http.auth.auth_required.TokenTypes.USER_TOKEN" title="Link permanente para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="asgard.http.auth.auth_required.auth_required">
+<code class="descclassname">asgard.http.auth.auth_required.</code><code class="descname">auth_required</code><span class="sig-paren">(</span><em>fn</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/asgard/http/auth/auth_required.html#auth_required"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#asgard.http.auth.auth_required.auth_required" title="Link permanente para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="asgard.http.auth.auth_required.check_auth_token">
+<code class="descclassname">asgard.http.auth.auth_required.</code><code class="descname">check_auth_token</code><span class="sig-paren">(</span><em>token</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/asgard/http/auth/auth_required.html#check_auth_token"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#asgard.http.auth.auth_required.check_auth_token" title="Link permanente para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="asgard.http.auth.auth_required.check_jwt_token">
+<code class="descclassname">asgard.http.auth.auth_required.</code><code class="descname">check_jwt_token</code><span class="sig-paren">(</span><em>jwt_token</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/asgard/http/auth/auth_required.html#check_jwt_token"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#asgard.http.auth.auth_required.check_jwt_token" title="Link permanente para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="asgard.http.auth.auth_required.make_response">
+<code class="descclassname">asgard.http.auth.auth_required.</code><code class="descname">make_response</code><span class="sig-paren">(</span><em>json_data</em>, <em>status_code</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/asgard/http/auth/auth_required.html#make_response"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#asgard.http.auth.auth_required.make_response" title="Link permanente para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="asgard.http.auth.auth_required.not_authenticated">
+<code class="descclassname">asgard.http.auth.auth_required.</code><code class="descname">not_authenticated</code><span class="sig-paren">(</span><em>_</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/asgard/http/auth/auth_required.html#not_authenticated"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#asgard.http.auth.auth_required.not_authenticated" title="Link permanente para esta definição">¶</a></dt>
+<dd></dd></dl>
+
 </div>
-<div class="section" id="asgard-http-auth-jwt-module">
-<h2>asgard.http.auth.jwt module<a class="headerlink" href="#asgard-http-auth-jwt-module" title="Link permanente para este título">¶</a></h2>
+<div class="section" id="module-asgard.http.auth.jwt">
+<span id="asgard-http-auth-jwt-module"></span><h2>asgard.http.auth.jwt module<a class="headerlink" href="#module-asgard.http.auth.jwt" title="Link permanente para este título">¶</a></h2>
+<dl class="function">
+<dt id="asgard.http.auth.jwt.jwt_encode">
+<code class="descclassname">asgard.http.auth.jwt.</code><code class="descname">jwt_encode</code><span class="sig-paren">(</span><em>user: asgard.models.user.User</em>, <em>account: asgard.models.account.Account</em><span class="sig-paren">)</span> &#x2192; bytes<a class="reference internal" href="../../_modules/asgard/http/auth/jwt.html#jwt_encode"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#asgard.http.auth.jwt.jwt_encode" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Encodes a new JWT Token
+<a class="reference external" href="https://tools.ietf.org/html/rfc7519#section-4.1.5">https://tools.ietf.org/html/rfc7519#section-4.1.5</a></p>
+</dd></dl>
+
 </div>
-<div class="section" id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Link permanente para este título">¶</a></h2>
+<div class="section" id="module-asgard.http.auth">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-asgard.http.auth" title="Link permanente para este título">¶</a></h2>
 </div>
 </div>
 

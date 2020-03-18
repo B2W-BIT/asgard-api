@@ -31,14 +31,14 @@
           <div class="body" role="main">
             
   <h1>Source code for asgard.workers.autoscaler.app</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">asyncworker</span> <span class="k">import</span> <span class="n">App</span>
+<span></span><span class="kn">from</span> <span class="nn">asyncworker</span> <span class="kn">import</span> <span class="n">App</span>
 
-<span class="kn">from</span> <span class="nn">asgard.workers.autoscaler.asgard_cloudinterface</span> <span class="k">import</span> <span class="n">AsgardInterface</span>
-<span class="kn">from</span> <span class="nn">asgard.workers.autoscaler.periodicstatechecker</span> <span class="k">import</span> <span class="n">PeriodicStateChecker</span>
-<span class="kn">from</span> <span class="nn">asgard.workers.autoscaler.simple_decision_component</span> <span class="k">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">asgard.workers.autoscaler.asgard_cloudinterface</span> <span class="kn">import</span> <span class="n">AsgardInterface</span>
+<span class="kn">from</span> <span class="nn">asgard.workers.autoscaler.periodicstatechecker</span> <span class="kn">import</span> <span class="n">PeriodicStateChecker</span>
+<span class="kn">from</span> <span class="nn">asgard.workers.autoscaler.simple_decision_component</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">DecisionComponent</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">hollowman.log</span> <span class="k">import</span> <span class="n">logger</span>
+<span class="kn">from</span> <span class="nn">hollowman.log</span> <span class="kn">import</span> <span class="n">logger</span>
 
 <span class="n">app</span> <span class="o">=</span> <span class="n">App</span><span class="p">()</span>
 

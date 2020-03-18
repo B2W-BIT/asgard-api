@@ -33,13 +33,13 @@
   <h1>Source code for asgard.models.user</h1><div class="highlight"><pre>
 <span></span><span class="c1"># encoding: utf-8</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Optional</span>
 
-<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="k">import</span> <span class="n">Boolean</span><span class="p">,</span> <span class="n">Column</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">String</span>
-<span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="k">import</span> <span class="n">relationship</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">Boolean</span><span class="p">,</span> <span class="n">Column</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">String</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="kn">import</span> <span class="n">relationship</span>
 
-<span class="kn">from</span> <span class="nn">asgard.models.base</span> <span class="k">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ModelFactory</span><span class="p">,</span> <span class="n">BaseModelAlchemy</span>
-<span class="kn">from</span> <span class="nn">asgard.models.user_has_account</span> <span class="k">import</span> <span class="n">UserHasAccount</span>
+<span class="kn">from</span> <span class="nn">asgard.models.base</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ModelFactory</span><span class="p">,</span> <span class="n">BaseModelAlchemy</span>
+<span class="kn">from</span> <span class="nn">asgard.models.user_has_account</span> <span class="kn">import</span> <span class="n">UserHasAccount</span>
 
 
 <div class="viewcode-block" id="UserDB"><a class="viewcode-back" href="../../../src/asgard/asgard.models.html#asgard.models.user.UserDB">[docs]</a><span class="k">class</span> <span class="nc">UserDB</span><span class="p">(</span><span class="n">BaseModelAlchemy</span><span class="p">):</span>  <span class="c1"># type: ignore</span>

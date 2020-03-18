@@ -32,18 +32,18 @@
           <div class="body" role="main">
             
   <h1>Código fonte para asgard.backends.mesos.impl</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 
-<span class="kn">from</span> <span class="nn">asgard.backends.base</span> <span class="k">import</span> <span class="n">Orchestrator</span><span class="p">,</span> <span class="n">AgentsBackend</span><span class="p">,</span> <span class="n">Interval</span>
-<span class="kn">from</span> <span class="nn">asgard.backends.mesos.models.agent</span> <span class="k">import</span> <span class="n">MesosAgent</span>
-<span class="kn">from</span> <span class="nn">asgard.backends.mesos.models.converters</span> <span class="k">import</span> <span class="n">MesosAgentConverter</span>
-<span class="kn">from</span> <span class="nn">asgard.clients.mesos.client</span> <span class="k">import</span> <span class="n">MesosClient</span>
-<span class="kn">from</span> <span class="nn">asgard.conf</span> <span class="k">import</span> <span class="n">settings</span>
-<span class="kn">from</span> <span class="nn">asgard.models.account</span> <span class="k">import</span> <span class="n">Account</span>
-<span class="kn">from</span> <span class="nn">asgard.models.agent</span> <span class="k">import</span> <span class="n">Agent</span>
-<span class="kn">from</span> <span class="nn">asgard.models.app</span> <span class="k">import</span> <span class="n">App</span><span class="p">,</span> <span class="n">AppStats</span>
-<span class="kn">from</span> <span class="nn">asgard.models.user</span> <span class="k">import</span> <span class="n">User</span>
-<span class="kn">from</span> <span class="nn">hollowman</span> <span class="k">import</span> <span class="n">log</span>
+<span class="kn">from</span> <span class="nn">asgard.backends.base</span> <span class="kn">import</span> <span class="n">Orchestrator</span><span class="p">,</span> <span class="n">AgentsBackend</span><span class="p">,</span> <span class="n">Interval</span>
+<span class="kn">from</span> <span class="nn">asgard.backends.mesos.models.agent</span> <span class="kn">import</span> <span class="n">MesosAgent</span>
+<span class="kn">from</span> <span class="nn">asgard.backends.mesos.models.converters</span> <span class="kn">import</span> <span class="n">MesosAgentConverter</span>
+<span class="kn">from</span> <span class="nn">asgard.clients.mesos.client</span> <span class="kn">import</span> <span class="n">MesosClient</span>
+<span class="kn">from</span> <span class="nn">asgard.conf</span> <span class="kn">import</span> <span class="n">settings</span>
+<span class="kn">from</span> <span class="nn">asgard.models.account</span> <span class="kn">import</span> <span class="n">Account</span>
+<span class="kn">from</span> <span class="nn">asgard.models.agent</span> <span class="kn">import</span> <span class="n">Agent</span>
+<span class="kn">from</span> <span class="nn">asgard.models.app</span> <span class="kn">import</span> <span class="n">App</span><span class="p">,</span> <span class="n">AppStats</span>
+<span class="kn">from</span> <span class="nn">asgard.models.user</span> <span class="kn">import</span> <span class="n">User</span>
+<span class="kn">from</span> <span class="nn">hollowman</span> <span class="kn">import</span> <span class="n">log</span>
 
 
 <div class="viewcode-block" id="populate_apps"><a class="viewcode-back" href="../../../../src/asgard/asgard.backends.mesos.html#asgard.backends.mesos.impl.populate_apps">[documentos]</a><span class="k">async</span> <span class="k">def</span> <span class="nf">populate_apps</span><span class="p">(</span><span class="n">agent</span><span class="p">:</span> <span class="n">MesosAgent</span><span class="p">):</span>

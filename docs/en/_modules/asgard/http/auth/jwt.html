@@ -31,13 +31,13 @@
           <div class="body" role="main">
             
   <h1>Source code for asgard.http.auth.jwt</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+<span></span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
 
 <span class="kn">import</span> <span class="nn">jwt</span>
 
-<span class="kn">from</span> <span class="nn">asgard.models.account</span> <span class="k">import</span> <span class="n">Account</span>
-<span class="kn">from</span> <span class="nn">asgard.models.user</span> <span class="k">import</span> <span class="n">User</span>
-<span class="kn">from</span> <span class="nn">hollowman.conf</span> <span class="k">import</span> <span class="n">SECRET_KEY</span>
+<span class="kn">from</span> <span class="nn">asgard.models.account</span> <span class="kn">import</span> <span class="n">Account</span>
+<span class="kn">from</span> <span class="nn">asgard.models.user</span> <span class="kn">import</span> <span class="n">User</span>
+<span class="kn">from</span> <span class="nn">hollowman.conf</span> <span class="kn">import</span> <span class="n">SECRET_KEY</span>
 
 
 <div class="viewcode-block" id="jwt_encode"><a class="viewcode-back" href="../../../../src/asgard/asgard.http.auth.html#asgard.http.auth.jwt.jwt_encode">[docs]</a><span class="k">def</span> <span class="nf">jwt_encode</span><span class="p">(</span><span class="n">user</span><span class="p">:</span> <span class="n">User</span><span class="p">,</span> <span class="n">account</span><span class="p">:</span> <span class="n">Account</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>

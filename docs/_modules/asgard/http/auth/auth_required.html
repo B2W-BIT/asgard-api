@@ -32,21 +32,22 @@
           <div class="body" role="main">
             
   <h1>Código fonte para asgard.http.auth.auth_required</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">defaultdict</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span>
+<span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span>
 
 <span class="kn">import</span> <span class="nn">jwt</span>
 <span class="kn">import</span> <span class="nn">sqlalchemy</span>
-<span class="kn">from</span> <span class="nn">aiohttp</span> <span class="k">import</span> <span class="n">web</span>
-<span class="kn">from</span> <span class="nn">asyncworker.routes</span> <span class="k">import</span> <span class="n">call_http_handler</span>
-<span class="kn">from</span> <span class="nn">sqlalchemy.orm.exc</span> <span class="k">import</span> <span class="n">NoResultFound</span>
+<span class="kn">from</span> <span class="nn">aiohttp</span> <span class="kn">import</span> <span class="n">web</span>
+<span class="kn">from</span> <span class="nn">asyncworker.http.wrapper</span> <span class="kn">import</span> <span class="n">RequestWrapper</span>
+<span class="kn">from</span> <span class="nn">asyncworker.routes</span> <span class="kn">import</span> <span class="n">call_http_handler</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.orm.exc</span> <span class="kn">import</span> <span class="n">NoResultFound</span>
 
-<span class="kn">from</span> <span class="nn">asgard</span> <span class="k">import</span> <span class="n">db</span>
-<span class="kn">from</span> <span class="nn">asgard.models.account</span> <span class="k">import</span> <span class="n">AccountDB</span><span class="p">,</span> <span class="n">Account</span>
-<span class="kn">from</span> <span class="nn">asgard.models.user</span> <span class="k">import</span> <span class="n">UserDB</span><span class="p">,</span> <span class="n">User</span>
-<span class="kn">from</span> <span class="nn">asgard.models.user_has_account</span> <span class="k">import</span> <span class="n">UserHasAccount</span>
-<span class="kn">from</span> <span class="nn">hollowman.conf</span> <span class="k">import</span> <span class="n">SECRET_KEY</span>
-<span class="kn">from</span> <span class="nn">hollowman.log</span> <span class="k">import</span> <span class="n">logger</span>
+<span class="kn">from</span> <span class="nn">asgard</span> <span class="kn">import</span> <span class="n">db</span>
+<span class="kn">from</span> <span class="nn">asgard.models.account</span> <span class="kn">import</span> <span class="n">AccountDB</span><span class="p">,</span> <span class="n">Account</span>
+<span class="kn">from</span> <span class="nn">asgard.models.user</span> <span class="kn">import</span> <span class="n">UserDB</span><span class="p">,</span> <span class="n">User</span>
+<span class="kn">from</span> <span class="nn">asgard.models.user_has_account</span> <span class="kn">import</span> <span class="n">UserHasAccount</span>
+<span class="kn">from</span> <span class="nn">hollowman.conf</span> <span class="kn">import</span> <span class="n">SECRET_KEY</span>
+<span class="kn">from</span> <span class="nn">hollowman.log</span> <span class="kn">import</span> <span class="n">logger</span>
 
 <span class="n">unhandled_auth_error</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;msg&quot;</span><span class="p">:</span> <span class="s2">&quot;Authorization failed. Unexpected error&quot;</span><span class="p">}</span>
 <span class="n">invalid_token_response_body</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;msg&quot;</span><span class="p">:</span> <span class="s2">&quot;Authorization token is invalid&quot;</span><span class="p">}</span>
@@ -165,10 +166,10 @@
 
 
 <div class="viewcode-block" id="auth_required"><a class="viewcode-back" href="../../../../src/asgard/asgard.http.auth.html#asgard.http.auth.auth_required.auth_required">[documentos]</a><span class="k">def</span> <span class="nf">auth_required</span><span class="p">(</span><span class="n">fn</span><span class="p">):</span>
-    <span class="k">async</span> <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">web</span><span class="o">.</span><span class="n">Request</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="n">wrapper</span><span class="p">:</span> <span class="n">RequestWrapper</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">user</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="n">auth_header</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="n">auth_header</span> <span class="o">=</span> <span class="n">wrapper</span><span class="o">.</span><span class="n">http_request</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
                 <span class="s2">&quot;Authorization&quot;</span><span class="p">,</span> <span class="s2">&quot;invalid-type invalid-token&quot;</span>
             <span class="p">)</span>
             <span class="n">token_type</span><span class="p">,</span> <span class="n">token</span> <span class="o">=</span> <span class="n">auth_header</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
@@ -181,7 +182,7 @@
             <span class="k">if</span> <span class="ow">not</span> <span class="n">user</span><span class="o">.</span><span class="n">account_ids</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">no_associated_account_response_error</span><span class="p">,</span> <span class="mi">401</span><span class="p">)</span>
 
-            <span class="n">request_account_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="n">request_account_id</span> <span class="o">=</span> <span class="n">wrapper</span><span class="o">.</span><span class="n">http_request</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
                 <span class="s2">&quot;account_id&quot;</span>
             <span class="p">)</span> <span class="ow">or</span> <span class="n">_extract_account_id_from_jwt</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
             <span class="n">request_account_on_db</span> <span class="o">=</span> <span class="k">await</span> <span class="n">_get_account_by_id</span><span class="p">(</span>
@@ -198,10 +199,8 @@
                     <span class="n">permission_denied_on_account_response_body</span><span class="p">,</span> <span class="mi">401</span>
                 <span class="p">)</span>
 
-            <span class="n">request</span><span class="p">[</span><span class="s2">&quot;user&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">user</span>
-            <span class="n">request</span><span class="p">[</span><span class="s2">&quot;user&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">current_account</span> <span class="o">=</span> <span class="n">request_account_on_db</span>
-            <span class="n">request</span><span class="p">[</span><span class="s2">&quot;types_registry&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="k">await</span> <span class="n">User</span><span class="o">.</span><span class="n">from_alchemy_obj</span><span class="p">(</span><span class="n">user</span><span class="p">))</span>
-            <span class="n">request</span><span class="p">[</span><span class="s2">&quot;types_registry&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span>
+            <span class="n">wrapper</span><span class="o">.</span><span class="n">types_registry</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="k">await</span> <span class="n">User</span><span class="o">.</span><span class="n">from_alchemy_obj</span><span class="p">(</span><span class="n">user</span><span class="p">))</span>
+            <span class="n">wrapper</span><span class="o">.</span><span class="n">types_registry</span><span class="o">.</span><span class="n">set</span><span class="p">(</span>
                 <span class="k">await</span> <span class="n">Account</span><span class="o">.</span><span class="n">from_alchemy_obj</span><span class="p">(</span><span class="n">request_account_on_db</span><span class="p">)</span>
             <span class="p">)</span>
 
@@ -210,8 +209,8 @@
             <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">unhandled_auth_error</span><span class="p">,</span> <span class="mi">401</span><span class="p">)</span>
 
         <span class="n">user</span><span class="o">.</span><span class="n">current_account</span> <span class="o">=</span> <span class="n">request_account_on_db</span>
-        <span class="n">request</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">user</span>
-        <span class="k">return</span> <span class="k">await</span> <span class="n">call_http_handler</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">fn</span><span class="p">)</span>
+        <span class="n">wrapper</span><span class="o">.</span><span class="n">http_request</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">user</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">call_http_handler</span><span class="p">(</span><span class="n">wrapper</span><span class="o">.</span><span class="n">http_request</span><span class="p">,</span> <span class="n">fn</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">wrapper</span></div>
 </pre></div>

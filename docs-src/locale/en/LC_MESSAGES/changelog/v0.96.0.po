@@ -1,0 +1,57 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2019, B2W Digital
+# This file is distributed under the same license as the Asgard API package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Asgard API \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-03-18 16:46-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.8.0\n"
+
+#: ../../changelog/v0.96.0.rst:2
+msgid "0.96.0"
+msgstr ""
+
+#: ../../changelog/v0.96.0.rst:5
+msgid "Asgard API"
+msgstr ""
+
+#: ../../changelog/v0.96.0.rst:8
+msgid ""
+"[`PR #206 <https://github.com/B2W-BIT/asgard-api/pull/206>`_] "
+"Feature/modernize api tests"
+msgstr ""
+
+#: ../../changelog/v0.96.0.rst:9
+msgid ""
+"[`PR #208 <https://github.com/B2W-BIT/asgard-api/pull/208>`_] Adicionando"
+" coverage do codeclimate"
+msgstr ""
+
+#: ../../changelog/v0.96.0.rst:10
+msgid ""
+"[`PR #209 <https://github.com/B2W-BIT/asgard-api/pull/209>`_] Ajustes na "
+"API jobs/* para usar novas features do asyncworker 0.12.0"
+msgstr ""
+
+#: ../../changelog/v0.96.0.rst:11
+msgid ""
+"[`PR #210 <https://github.com/B2W-BIT/asgard-api/pull/210>`_] Feature/do "
+"not receive request when possible"
+msgstr ""
+
+#: ../../changelog/v0.96.0.rst:13
+msgid ""
+"Raw Commits: `0.96.0 <https://github.com/B2W-BIT/asgard-"
+"api/compare/0.95.0...0.96.0>`_"
+msgstr ""
+
