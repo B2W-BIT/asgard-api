@@ -4,6 +4,7 @@ from typing import Callable, Dict
 import jwt
 import sqlalchemy
 from aiohttp import web
+from asyncworker.http.wrapper import RequestWrapper
 from asyncworker.routes import call_http_handler
 from sqlalchemy.orm.exc import NoResultFound
 
@@ -131,10 +132,10 @@ AUTH_TYPES[TokenTypes.JWT] = check_jwt_token
 
 
 def auth_required(fn):
-    async def wrapper(request: web.Request, *args, **kwargs):
+    async def wrapper(wrapper: RequestWrapper, *args, **kwargs):
         try:
             user = None
-            auth_header = request.headers.get(
+            auth_header = wrapper.http_request.headers.get(
                 "Authorization", "invalid-type invalid-token"
             )
             token_type, token = auth_header.strip().split(" ")
@@ -147,7 +148,7 @@ def auth_required(fn):
             if not user.account_ids:
                 return make_response(no_associated_account_response_error, 401)
 
-            request_account_id = request.query.get(
+            request_account_id = wrapper.http_request.query.get(
                 "account_id"
             ) or _extract_account_id_from_jwt(token)
             request_account_on_db = await _get_account_by_id(
@@ -164,10 +165,8 @@ def auth_required(fn):
                     permission_denied_on_account_response_body, 401
                 )
 
-            request["user"] = user
-            request["user"].current_account = request_account_on_db
-            request["types_registry"].set(await User.from_alchemy_obj(user))
-            request["types_registry"].set(
+            wrapper.types_registry.set(await User.from_alchemy_obj(user))
+            wrapper.types_registry.set(
                 await Account.from_alchemy_obj(request_account_on_db)
             )
 
@@ -176,7 +175,7 @@ def auth_required(fn):
             return make_response(unhandled_auth_error, 401)
 
         user.current_account = request_account_on_db
-        request.user = user
-        return await call_http_handler(request, fn)
+        wrapper.http_request.user = user
+        return await call_http_handler(wrapper.http_request, fn)
 
     return wrapper

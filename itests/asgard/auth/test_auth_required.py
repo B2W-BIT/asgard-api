@@ -24,14 +24,13 @@ class AuthRequiredTest(BaseTestCase):
 
         @self.app.route(["/"], methods=["GET"], type=RouteTypes.HTTP)
         @auth_required
-        async def handler(r):
-            auth_user = r["user"]
+        async def handler(auth_user: User, account: Account):
             data = {
-                "user": {"id": auth_user.id, "email": auth_user.tx_email},
+                "user": {"id": auth_user.id, "email": auth_user.email},
                 "current_account": {
-                    "id": auth_user.current_account.id,
-                    "namespace": auth_user.current_account.namespace,
-                    "name": auth_user.current_account.name,
+                    "id": account.id,
+                    "namespace": account.namespace,
+                    "name": account.name,
                 },
             }
             return web.json_response(data)

@@ -1,9 +1,9 @@
 from http import HTTPStatus
-from json.decoder import JSONDecodeError
 from typing import List
 
 from aiohttp import web
 from asyncworker import RouteTypes
+from asyncworker.http.decorators import parse_path
 
 from asgard.api.resources.accounts import (
     AccountsResource,
@@ -24,9 +24,8 @@ from asgard.services.users import UsersService
     ["/accounts/{account_id}/auth"], type=RouteTypes.HTTP, methods=["GET"]
 )
 @auth_required
-async def change_account(request: web.Request):
-    account_id: str = request.match_info["account_id"]
-    user = await User.from_alchemy_obj(request["user"])
+@parse_path
+async def change_account(account_id: str, user: User):
     permission_ok = False
     new_token = b""
 
@@ -45,17 +44,17 @@ async def change_account(request: web.Request):
 
 @app.route(["/accounts"], type=RouteTypes.HTTP, methods=["GET"])
 @auth_required
-async def index(r: web.Request):
+async def index():
     accounts = await AccountsService.get_accounts(AccountsBackend())
     return web.json_response(AccountsResource(accounts=accounts).dict())
 
 
 @app.route(["/accounts/{account_id}"], type=RouteTypes.HTTP, methods=["GET"])
 @auth_required
-async def account_by_id(request: web.Request):
-    account_id: str = request.match_info["account_id"]
+@parse_path
+async def account_by_id(account_id: int):
     account = await AccountsService.get_account_by_id(
-        int(account_id), AccountsBackend()
+        account_id, AccountsBackend()
     )
     status_code = HTTPStatus.OK if account else HTTPStatus.NOT_FOUND
     return web.json_response(
@@ -67,12 +66,12 @@ async def account_by_id(request: web.Request):
     ["/accounts/{account_id}/users"], type=RouteTypes.HTTP, methods=["GET"]
 )
 @auth_required
-async def users_from_account(request: web.Request):
-    account_id: str = request.match_info["account_id"]
+@parse_path
+async def users_from_account(account_id: int):
     users: List[User] = []
 
     account = await AccountsService.get_account_by_id(
-        int(account_id), AccountsBackend()
+        account_id, AccountsBackend()
     )
     status_code = HTTPStatus.OK if account else HTTPStatus.NOT_FOUND
     if account:
@@ -90,9 +89,8 @@ async def users_from_account(request: web.Request):
     methods=["POST"],
 )
 @auth_required
-async def add_user_to_account(request: web.Request):
-    user_id: str = request.match_info["user_id"]
-    account_id: str = request.match_info["account_id"]
+@parse_path
+async def add_user_to_account(user_id: str, account_id: str):
     account = await AccountsService.get_account_by_id(
         int(account_id), AccountsBackend()
     )
@@ -114,9 +112,8 @@ async def add_user_to_account(request: web.Request):
     methods=["DELETE"],
 )
 @auth_required
-async def remove_user_from_account(request: web.Request):
-    user_id: str = request.match_info["user_id"]
-    account_id: str = request.match_info["account_id"]
+@parse_path
+async def remove_user_from_account(user_id: str, account_id: str):
     account = await AccountsService.get_account_by_id(
         int(account_id), AccountsBackend()
     )

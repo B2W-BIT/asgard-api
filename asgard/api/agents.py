@@ -3,6 +3,8 @@ from typing import Any, Dict, List
 
 from aiohttp import web
 from asyncworker import RouteTypes
+from asyncworker.http.decorators import parse_path
+from asyncworker.http.wrapper import RequestWrapper
 
 from asgard.api.resources.agents import AgentsResource
 from asgard.api.resources.apps import AppsResource
@@ -40,9 +42,7 @@ def calculate_stats(agents):
 
 @app.route(["/agents"], type=RouteTypes.HTTP, methods=["GET"])
 @auth_required
-async def agents_handler(request: web.Request):
-    user = await User.from_alchemy_obj(request["user"])
-    account = await Account.from_alchemy_obj(request["user"].current_account)
+async def agents_handler(user: User, account: Account):
     agents = await agents_service.get_agents(user, account, mesos)
     stats = calculate_stats(agents)
     return web.json_response(AgentsResource(agents=agents, stats=stats).dict())
@@ -65,11 +65,11 @@ def apply_attr_filter(
 
 @app.route(["/agents/with-attrs"], type=RouteTypes.HTTP, methods=["GET"])
 @auth_required
-async def agents_with_attrs(request: web.Request):
-    user = await User.from_alchemy_obj(request["user"])
-    account = await Account.from_alchemy_obj(request["user"].current_account)
+async def agents_with_attrs(
+    wrapper: RequestWrapper, user: User, account: Account
+):
 
-    filters = request.query.copy()
+    filters = wrapper.http_request.query.copy()
     filters.pop("account_id", None)
 
     agents = await agents_service.get_agents(user, account, backend=mesos)
@@ -83,11 +83,9 @@ async def agents_with_attrs(request: web.Request):
 
 @app.route(["/agents/{agent_id}/apps"], type=RouteTypes.HTTP, methods=["GET"])
 @auth_required
-async def agent_apps(request: web.Request):
+@parse_path
+async def agent_apps(agent_id: str, user: User, account: Account):
     apps: List[App] = []
-    user = await User.from_alchemy_obj(request["user"])
-    account = await Account.from_alchemy_obj(request["user"].current_account)
-    agent_id = request.match_info["agent_id"]
 
     agent = await agents_service.get_agent_by_id(agent_id, user, account, mesos)
     if agent:

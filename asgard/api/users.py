@@ -4,6 +4,8 @@ from json.decoder import JSONDecodeError
 from aiohttp import web
 from aiohttp.web import json_response
 from asyncworker import RouteTypes
+from asyncworker.http.decorators import parse_path
+from asyncworker.http.wrapper import RequestWrapper
 
 from asgard.api.resources import ErrorDetail, ErrorResource
 from asgard.api.resources.users import (
@@ -23,11 +25,7 @@ from asgard.services.users import UsersService
 
 @app.route(["/users/me"], type=RouteTypes.HTTP, methods=["GET"])
 @auth_required
-async def whoami(request: web.Request):
-    user = await User.from_alchemy_obj(request["user"])
-    current_account = await Account.from_alchemy_obj(
-        request["user"].current_account
-    )
+async def whoami(user: User, current_account: Account):
 
     alternate_accounts = await UsersService.get_alternate_accounts(
         user, current_account, UsersBackend()
@@ -42,16 +40,16 @@ async def whoami(request: web.Request):
 
 @app.route(["/users"], type=RouteTypes.HTTP, methods=["GET"])
 @auth_required
-async def users_list(request: web.Request):
+async def users_list():
     users = await UsersService.get_users(UsersBackend())
     return web.json_response(UserListResource(users=users).dict())
 
 
 @app.route(["/users/{user_id}"], type=RouteTypes.HTTP, methods=["GET"])
 @auth_required
-async def user_by_id(request: web.Request):
+@parse_path
+async def user_by_id(user_id: str):
 
-    user_id: str = request.match_info["user_id"]
     user = await UsersService.get_user_by_id(int(user_id), UsersBackend())
     status_code = HTTPStatus.OK if user else HTTPStatus.NOT_FOUND
     return web.json_response(UserResource(user=user).dict(), status=status_code)
@@ -59,8 +57,8 @@ async def user_by_id(request: web.Request):
 
 @app.route(["/users/{user_id}/accounts"], type=RouteTypes.HTTP, methods=["GET"])
 @auth_required
-async def accounts_from_user(request: web.Request):
-    user_id: str = request.match_info["user_id"]
+@parse_path
+async def accounts_from_user(user_id: str):
     user = await UsersService.get_user_by_id(int(user_id), UsersBackend())
 
     status_code = HTTPStatus.OK if user else HTTPStatus.NOT_FOUND
@@ -77,10 +75,10 @@ async def accounts_from_user(request: web.Request):
 
 @app.route(["/users"], type=RouteTypes.HTTP, methods=["POST"])
 @auth_required
-async def create_user(request: web.Request):
+async def create_user(wrapper: RequestWrapper):
     status_code = HTTPStatus.CREATED
     try:
-        user = User(**await request.json())
+        user = User(**await wrapper.http_request.json())
     except ValueError:
         return web.json_response(
             UserResource().dict(), status=HTTPStatus.BAD_REQUEST
@@ -101,8 +99,8 @@ async def create_user(request: web.Request):
 
 @app.route(["/users/{user_id}"], type=RouteTypes.HTTP, methods=["DELETE"])
 @auth_required
-async def delete_user(request: web.Request):
-    user_id: str = request.match_info["user_id"]
+@parse_path
+async def delete_user(user_id: str):
 
     user = await UsersService.get_user_by_id(int(user_id), UsersBackend())
     status_code = HTTPStatus.OK if user else HTTPStatus.NOT_FOUND
@@ -118,11 +116,11 @@ async def delete_user(request: web.Request):
 
 @app.route(["/users/{user_id}"], type=RouteTypes.HTTP, methods=["PATCH"])
 @auth_required
-async def update_user_partial(request: web.Request):
-    user_id: str = request.match_info["user_id"]
+@parse_path
+async def update_user_partial(user_id: str, wrapper: RequestWrapper):
 
     try:
-        body_data = await request.json()
+        body_data = await wrapper.http_request.json()
     except JSONDecodeError as e:
         return web.json_response(
             ErrorResource(errors=[ErrorDetail(msg=str(e))]).dict(),
